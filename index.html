@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syeda Arooba Fatima // ARB TECH</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #0a0a0c; color: white; font-family: sans-serif; overflow-x: hidden; }
+        
+        /* ─── CYBER SPLASH LOADING SCREEN ─── */
+        #arb-cyber-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0a0a0c;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .loader-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .loader-title span { color: #ff1e27; }
+        .loader-subtitle {
+            color: #888;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            animation: pulse 1.8s infinite;
+        }
+        .loader-bar-container {
+            width: 250px;
+            height: 2px;
+            background: #121215;
+            margin-top: 25px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .loader-bar-progress {
+            width: 100%;
+            height: 100%;
+            background: #ff1e27;
+            transform: translateX(-100%);
+            animation: loadProgress 2.5s forwards cubic-bezier(0.1, 0.85, 0.45, 1);
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        @keyframes loadProgress {
+            100% { transform: translateX(0); }
+        }
+        
+        /* Hide loader classes */
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Layout & Typography */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+        h1 { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        h2 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-left: 4px solid #ff1e27; padding-left: 15px; margin-bottom: 30px; }
+        .text-red { color: #ff1e27; }
+        
+        /* Buttons & Actions */
+        .btn-red { background: #ff1e27; padding: 15px 35px; color: white; text-decoration: none; display: inline-block; margin: 10px; border-radius: 4px; font-weight: bold; transition: background 0.2s, transform 0.2s; border: none; cursor: pointer; }
+        .btn-red:hover { background: #d6151d; transform: translateY(-2px); }
+        .btn-outline { border: 1px solid #222; padding: 15px 35px; color: white; text-decoration: none; display: inline-block; margin: 10px; border-radius: 4px; font-weight: bold; transition: background 0.2s, border-color 0.2s; }
+        .btn-outline:hover { background: rgba(255,255,255,0.03); border-color: #ff1e27; }
+        
+        /* Grid System & Cards */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .card { background: #121215; padding: 35px; border: 1px solid #222; border-radius: 8px; transition: border-color 0.3s; }
+        .card:hover { border-color: #333; }
+        .card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+        
+        /* Extended Detailed Resume Sections */
+        .resume-badge-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .badge { background: #1a1a1f; border: 1px solid #333; padding: 6px 14px; border-radius: 4px; font-size: 0.8rem; color: #ccc; font-weight: 600; }
+        .badge.highlight { border-color: #ff1e27; color: #ff1e27; }
+
+        /* ─── LIVE AI ASSISTANT WIDGET ─── */
+        #arb-ai-chat-widget { position: fixed; bottom: 25px; right: 25px; z-index: 10000; font-family: sans-serif; }
+        #arb-chat-toggle-btn { background: #ff1e27; color: #ffffff; border: none; padding: 14px 24px; border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 30, 39, 0.3); transition: transform 0.2s, background 0.2s; }
+        #arb-chat-toggle-btn:hover { transform: scale(1.05); background: #d6151d; }
+        #arb-chat-window { width: 340px; height: 470px; background: #121215; border: 1px solid #222; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; position: absolute; bottom: 65px; right: 0; overflow: hidden; transition: opacity 0.3s ease; }
+        #arb-chat-window.arb-chat-hidden { display: none; }
+        .arb-chat-header { background: #1a1a1f; padding: 14px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+        .arb-header-title-area h4 { margin: 0; font-size: 15px; color: #ff1e27; font-weight: bold; letter-spacing: 0.5px; }
+        .arb-powered-by { font-size: 10px; color: #666; display: block; margin-top: 2px; }
+        .arb-close-btn { background: none; border: none; color: #ffffff; font-size: 22px; cursor: pointer; opacity: 0.7; }
+        #arb-chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #0a0a0c; }
+        .arb-message { padding: 10px 14px; border-radius: 6px; font-size: 13px; max-width: 85%; line-height: 1.45; word-wrap: break-word; }
+        .arb-ai-message { background: #121215; color: #e2e8f0; align-self: flex-start; border: 1px solid #222; border-left: 3px solid #ff1e27; }
+        .arb-user-message { background: #ff1e27; color: #ffffff; align-self: flex-end; }
+        .arb-loading { font-style: italic; opacity: 0.6; }
+        .arb-chat-input-area { padding: 12px; background: #121215; display: flex; gap: 8px; border-top: 1px solid #222; }
+        #arb-user-input { flex: 1; background: #0a0a0c; border: 1px solid #222; padding: 10px 14px; border-radius: 4px; color: #ffffff; font-size: 13px; }
+        #arb-user-input:focus { outline: none; border-color: #ff1e27; }
+        #arb-send-btn { background: #ff1e27; color: white; border: none; padding: 0 16px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+        /* Advanced Professional Footer Layout */
+        footer { background: #121215; border-top: 1px solid #222; padding: 60px 20px 30px 20px; font-size: 0.9rem; color: #888; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: left; margin-bottom: 40px; }
+        .footer-col h4 { color: white; font-size: 1.1rem; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+        .footer-col p { line-height: 1.6; color: #aaa; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; color: #aaa; }
+        .footer-col ul li strong { color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="arb-cyber-loader">
+        <div class="loader-title">ARB<span>TECH</span></div>
+        <div class="loader-subtitle">INITIALIZING CYBER SYSTEMS...</div>
+        <div class="loader-bar-container">
+            <div class="loader-bar-progress"></div>
+        </div>
+    </div>
+
+    <header style="padding: 25px 20px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%;">
+        <div style="font-weight: 900; font-size: 1.6rem; letter-spacing: 1px;">ARB<span class="text-red">.</span>TECH</div>
+        <nav style="color: #aaa; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Syeda Arooba Fatima // Portfolio</nav>
+    </header>
+
+    <section class="hero">
+        <h1 style="line-height: 1.1;">Syeda Arooba Fatima</h1>
+        <p style="color: #888; letter-spacing: 6px; text-transform: uppercase; font-size: 1rem; margin-top: 10px;">Founder of ARB TECH</p>
+        <div style="margin-top: 40px;">
+            <a href="#ventures" class="btn-red">Explore Projects</a>
+            <a href="mailto:HeyItsmedev@protonmail.com" class="btn-outline">Secure Contact</a>
+        </div>
+    </section>
+
+    <div class="container" id="ventures">
+        <h2>Strategic Ventures</h2>
+        <div class="grid-cards">
+            <div class="card">
+                <h3>Sovereign AIOS Architecture</h3>
+                <p style="color: #aaa; margin-top: 10px; line-height: 1.5;">Developing a decentralized, logic-first Artificial Intelligence Operating System structured to optimize compute vectors dynamically.</p>
+                <div class="resume-badge-group">
+                    <span class="badge highlight">Gemma 4</span>
+                    <span class="badge">Python</span>
+                    <span class="badge">Next-Gen UI</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>ARB Sender Utility</h3>
+                <p style="color: #aaa; margin-top: 10px; line-height: 1.5;">High-performance system module built to handle multi-channel encrypted transmissions and secure email branding protocols.</p>
+                <div class="resume-badge-group">
+                    <span class="badge">Security</span>
+                    <span class="badge">API Integrations</span>
+                    <span class="badge">JavaScript</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Chatme Portal</h3>
+                <p style="color: #aaa; margin-top: 10px; line-height: 1.5;">A comprehensive, full-duplex communication network architecture equipped with robust serverless administrative dashboard views.</p>
+                <div class="resume-badge-group">
+                    <span class="badge">Node.js</span>
+                    <span class="badge">Real-Time UI</span>
+                    <span class="badge">Glassmorphism</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>Technical Credentials (CV System)</h2>
+        <div class="grid-cards">
+            <div class="card">
+                <h3>Core Competencies</h3>
+                <div class="resume-badge-group" style="margin-top: 5px;">
+                    <span class="badge highlight">Frontend Engineering</span>
+                    <span class="badge">HTML5 & CSS3 Architecture</span>
+                    <span class="badge">Advanced ES6 JS Logic</span>
+                    <span class="badge">Cyber/Glass UI Design</span>
+                    <span class="badge">Python Foundations</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Design Philosophy</h3>
+                <p style="color: #aaa; margin-top: 10px; line-height: 1.5;">Operating on a strict <strong>Logic-First Approach</strong>. Eliminating memorization by deconstructing vector spaces, functional flows, and visual structural physics.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="arb-ai-chat-widget">
+        <button id="arb-chat-toggle-btn" onclick="toggleArbChat()">💬 Ask Arooba AI</button>
+        
+        <div id="arb-chat-window" class="arb-chat-hidden">
+            <div class="arb-chat-header">
+                <div class="arb-header-title-area">
+                    <h4>Arooba's AI Assistant</h4>
+                    <span class="arb-powered-by">Powered by Gemma 4 via Groq</span>
+                </div>
+                <button onclick="toggleArbChat()" class="arb-close-btn">&times;</button>
+            </div>
+            
+            <div id="arb-chat-messages">
+                <div class="arb-message arb-ai-message">
+                    Hi! I am Arooba's AI assistant. Ask me anything about her frontend skills, projects, or her brand ARB TECH!
+                </div>
+            </div>
+            
+            <div class="arb-chat-input-area">
+                <input type="text" id="arb-user-input" placeholder="Ask about her tech stack..." onkeypress="handleArbKeyPress(event)">
+                <button onclick="sendArbMessage()" id="arb-send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Arooba Fatima // Founder</h4>
+                <p>Leading digital infrastructure architecture via ARB TECH. Specialize in designing secure, highly-optimized frontend products with complex vector aesthetics.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Core Architecture</h4>
+                <ul>
+                    <li><strong>Frameworks:</strong> Custom Structural CSS, Semantic UI Elements</li>
+                    <li><strong>Logic Systems:</strong> AIOS, Serverless Edge APIs Integration</li>
+                    <li><strong>Paradigm:</strong> Concept Deconstruction, Logic-First Programming</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Secure Communications</h4>
+                <p>For high-level business queries or technical partnerships, direct secure channels via ProtonMail:</p>
+                <p style="margin-top: 10px;"><a href="mailto:HeyItsmedev@protonmail.com" style="color: #ff1e27; text-decoration: none; font-weight: bold;">HeyItsmedev@protonmail.com</a></p>
+            </div>
+        </div>
+        <div style="text-align: center; color: #444; font-size: 0.8rem; border-top: 1px solid #1a1a1f; padding-top: 30px;">
+            © 2026 ARB TECH // ALL SYSTEMS SECURED // DEPLOYMENT OPERATIONAL
+        </div>
+    </footer>
+
+    
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const loader = document.getElementById('arb-cyber-loader');
+            loader.classList.add('loader-hidden');
+        }, 2500); 
+    });
+
+    function toggleArbChat() {
+        const chatWindow = document.getElementById('arb-chat-window');
+        chatWindow.classList.toggle('arb-chat-hidden');
+    }
+
+    function handleArbKeyPress(e) {
+        if (e.key === 'Enter') sendArbMessage();
+    }
+
+    async function sendArbMessage() {
+        const input = document.getElementById('arb-user-input');
+        const text = input.value.trim();
+        if (!text) return;
+
+        displayArbMessage(text, 'arb-user-message');
+        input.value = '';
+        const loadingId = displayArbMessage('Thinking...', 'arb-ai-message arb-loading');
+
+        try {
+            // This now calls YOUR backend function, not the Groq API directly
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text })
+            });
+
+            const data = await response.json();
+            document.getElementById(loadingId).remove();
+
+            if (data.reply) {
+                displayArbMessage(data.reply, 'arb-ai-message');
+            } else {
+                displayArbMessage("Arooba's AI is online and operational.", 'arb-ai-message');
+            }
+        } catch (error) {
+            document.getElementById(loadingId).remove();
+            displayArbMessage("Connection error: Ensure the proxy is deployed.", 'arb-ai-message');
+        }
+    }
+
+    function displayArbMessage(t, c) {
+        const m = document.getElementById('arb-chat-messages');
+        const d = document.createElement('div');
+        const id = 'arb-' + Date.now();
+        d.id = id; d.className = `arb-message ${c}`; d.innerText = t;
+        m.appendChild(d); m.scrollTop = m.scrollHeight;
+        return id;
+    }
+    </script>
+
+</body>
+</html>
